@@ -7,7 +7,156 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.label {
+  float: left;
+  width: -webkit-fill-available;
+}
+
+.adjust {
+  margin-bottom: 10px;
+  margin-right: -5px;
+}
+
+.card-img-top {
+  height: 350px;
+}
+
+.pagination {
+  width: 100%;
+  justify-content: center;
+}
+
+.pagination button {
+  width: 40px;
+  height: 40px;
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  /* background: transparent; */
+  border: #b16262;
+  transition: all 0.3s ease;
+}
+
+.pagination button.active {
+  font-weight: 900;
+  border-color: black;
+  background-color: rgb(214, 226, 38);
+  color: black;
+}
+
+.fullH {
+  height: 100vh;
+}
+
+.fullH .align-items-center.h-100 {
+  background: #f0f8ffe0;
+}
+
+.height {
+  height: 370px;
+}
+
+.details {
+  margin: 10px;
+}
+
+.details h1 {
+  margin-bottom: 26px;
+  text-decoration: underline;
+}
+
+.bgColor {
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.bgColor h3{
+  text-decoration: underline;
+  margin-bottom: 20px;
+}
+
+.form-control.me-2 {
+  width: 100vh;
+}
+
+.d-flex.searchForm {
+  position: relative;
+  right: 150px;
+}
+
+.header {
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.header .funcc {
+  height: 50px;
+  margin-top: 155px;
+  padding: 4px;
+  background-color: aliceblue;
+}
+
+.dropdownBtn {
+  margin-left: 30px;
+  padding: 12px 20px;
+  background: #fff;
+  box-shadow: 3px 3px 10px 6px rgba(0, 0, 0, 0.06);
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  align-items: center;
+  border: 0;
+  width: 250px;
+  position: absolute;
+  top: 300px;
+}
+
+.forPosition {
+  position: relative;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.searchResult {
+  position: absolute;
+  padding: 0 15px;
+  top: 48px;
+  width: 300px;
+  margin-left: 5px;
+  z-index: 999;
+  background-color: aliceblue;
+  font-weight: 400;
+  color: #333;
+}
+
+.bgcolor {
+  background: url('https://w0.peakpx.com/wallpaper/201/689/HD-wallpaper-game-of-thrones-game-thrones-characters-of.jpg');
+  background-position-y: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.forMargin {
+  margin-top: 40px;
+  color: white;
+}
+
+#backcolor {
+  background: url('../public/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

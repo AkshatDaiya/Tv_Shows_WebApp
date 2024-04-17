@@ -60,45 +60,44 @@ function Shows() {
     }
 
     return (
-        <>
+        <div id='backgroundC'>
             <div>
 
                 <Header onSubmit={getData} />
 
             </div>
-            <div className="container">
+            <div className="container mt-5 pt-4">
                 <div className="row">
-                    {searchedData.length === 0 ? (currentPosts.map((data) => (
-                        <div className="col-md-4 adjust" key={data.id}>
-                            <div className="card">
-                                <img src={data.image.original} className="card-img-top" alt="" />
-                                <div className="card-body">
-                                    <h3 className="card-title">{data.name}</h3>
-                                    <hr />
-                                    <h6><b>Genres: </b>{data.genres.join(', ')}</h6>
-                                    <h6><b>Language: </b>{data.language}</h6>
-                                    <h6><b>IMDB Rating: </b>{data.rating.average}</h6>
-                                    <h6><b>Release Date: </b>{data.premiered}</h6>
-                                    <p className="card-text"><b>Summary: </b>{removeHtmlTags(data.summary.length > 50 ? data.summary.slice(0, 140) + "...." : data.summary)}</p>
-                                    <button className="btn btn-outline-primary" onClick={(e) => { goTODetails(e, data.id) }}>More Details</button>
+                    {searchedData.length === 0 ? (
+                        currentPosts.map((data, i) => (
+                            <div className="col-md-4 adjust" key={i}>
+                                <div className="card" style={{ background: '#454545' }}>
+                                    <img src={data.image.original} className="card-img-top" alt="" />
+                                    <div className="card-body text-white">
+                                        <h3 className="card-title">{data.name}</h3>
+                                        <hr />
+                                        <h6><b>Genres: </b>{data.genres.join(', ')}</h6>
+                                        <h6><b>Language: </b>{data.language}</h6>
+                                        <h6><b>IMDB Rating: </b>{data.rating.average}</h6>
+                                        <h6><b>Release Date: </b>{data.premiered}</h6>
+                                        <p className="card-text"><b>Summary: </b>{removeHtmlTags(data.summary.length > 50 ? data.summary.slice(0, 140) + "...." : data.summary)}</p>
+                                        <button className="btn btn-outline-primary" onClick={(e) => { goTODetails(e, data.id) }}>More Details</button>
+                                    </div>
+                                    <button onClick={() => { goToFavorite(data.externals.thetvdb) }} className='btn btn-outline-warning mt-5'>Add To Favorite</button>
                                 </div>
-                                <button onClick={() => { goToFavorite(data.externals.thetvdb) }} className='btn btn-outline-warning mt-5'>Add To Favorite</button>
                             </div>
-                        </div>
-                    )))
+                        )))
                         :
-                        (searchedData.map((data) => (
-                            <div className="col-md-4 adjust" key={data.id}>
-                                <div className="card">
+                        (searchedData.map((data, i) => (
+                            <div className="col-md-4 adjust" key={i}>
+                                <div className="card" style={{ background: '#454545' }}>
                                     {!data.show.image ? (<></>) :
                                         <img src={data.show.image.original} className="card-img-top" alt="" />
                                     }
-                                    <div className="card-body">
+                                    <div className="card-body text-white">
                                         <h3 className="card-title">{data.show.name}</h3>
                                         <hr />
-                                        {/* <h6><b>Genres: </b>{data.genres.join(', ')}</h6> */}
                                         <h6><b>Language: </b>{data.show.language}</h6>
-                                        {/* <h6><b>IMDB Rating: </b>{data.rating.average}</h6> */}
                                         <h6><b>Release Date: </b>{data.show.premiered}</h6>
                                         <p className="card-text"><b>Summary: </b>{removeHtmlTags(data.show.summary)}</p>
                                         <button className="btn btn-primary" onClick={(e) => { goTODetails(e, data.show.id) }}>More Details</button>
@@ -110,7 +109,7 @@ function Shows() {
                 </div>
                 <Pagination totalPosts={data.length} postsPerPages={postPerPage} setCurrentPage={setCurrentPage} currentPage={currentPage} />
             </div>
-        </>
+        </div>
     )
 }
 

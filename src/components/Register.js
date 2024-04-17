@@ -1,17 +1,9 @@
 import React, { useState } from 'react'
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const handleLoginChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,10 +11,17 @@ function Register() {
         console.log('Eamil:', email);
         console.log('Password:', password);
 
-        localStorage.setItem('Email', email)
-        localStorage.setItem('Password', password)
+        const storedEmail = localStorage.getItem('Email')
 
-        alert('Email Register Successfully')
+        if (email === storedEmail) {
+            alert("This email is already in use.")
+        } else {
+
+            localStorage.setItem('Email', email)
+            localStorage.setItem('Password', password)
+
+            alert('Email Register Successfully')
+        }
     };
     return (
         <div className="container">
@@ -35,10 +34,10 @@ function Register() {
                         <h3 className='mb-3'>Register Now!</h3>
 
                         <label className='label' htmlFor="">Email:</label>
-                        <input type="email" className='form-control' value={email} onChange={handleLoginChange} required />
+                        <input type="email" className='form-control' value={email} onChange={(e) => setEmail(e.target.value)} required />
 
                         <label className='label' htmlFor="">Password:</label>
-                        <input type="password" className='form-control' value={password} onChange={handlePasswordChange} required />
+                        <input type="password" className='form-control' value={password} onChange={(e) => setPassword(e.target.value)} required />
 
                         <button type="submit" className='btn btn-success form-control mt-2'>Register</button>
 

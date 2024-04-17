@@ -43,15 +43,16 @@ function Favorite() {
     }
 
     return (
-        <div className="container">
-            <div className="row">
+        <div id='backgroundC' className="d-flex justify-content-center">
+            <div className="container row">
+                <h1 className='text-center py-4 text-white'>Added to favorites</h1>
                 {!isLoading ? (
 
                     data.map((data) => (
                         <div className="col-md-4 adjust" key={data.id}>
-                            <div className="card">
+                            <div className="card" style={{ background: '#454545' }}>
                                 <img src={data.image.original} className="card-img-top" alt="" />
-                                <div className="card-body">
+                                <div className="card-body text-white">
                                     <h3 className="card-title">{data.name}</h3>
                                     <hr />
                                     <h6><b>Genres: </b>{data.genres.join(', ')}</h6>
@@ -59,7 +60,6 @@ function Favorite() {
                                     <h6><b>IMDB Rating: </b>{data.rating.average}</h6>
                                     <h6><b>Release Date: </b>{data.premiered}</h6>
                                     <p className="card-text"><b>Summary: </b>{removeHtmlTags(data.summary.length > 50 ? data.summary.slice(0, 140) + "...." : data.summary)}</p>
-
                                 </div>
                             </div>
                         </div>

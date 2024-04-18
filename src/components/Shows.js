@@ -63,7 +63,7 @@ function Shows() {
         <div id='backgroundC'>
             <div>
 
-                <Header onSubmit={getData} />
+                <Header onSubmit={getData} searchedData={searchedData} />
 
             </div>
             <div className="container mt-5 pt-4">

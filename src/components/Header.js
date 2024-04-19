@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -9,26 +9,17 @@ function Header({ onSubmit, searchedData }) {
     console.log(name);
     console.log(searchedData);
 
-    // Function to fetch data from the API
-    const fetchData = async (query) => {
-        try {
-            const response = await axios.get(`https://api.tvmaze.com/search/shows?q=${query}`);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            return [];
-        }
-    };
-
     // Handle form submission for searching
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const searchData = await fetchData(name);
-        onSubmit(searchData);
-    };
 
-    const handleLogout = () => {
-
+        axios.get(`https://api.tvmaze.com/search/shows?q=${name}`)
+            .then((response) => {
+                console.log(response)
+                const searchData = response.data;
+                onSubmit(searchData);
+            })
+            .catch((error) => { console.log(error) })
     };
 
     const handleAccountDelete = () => {
@@ -44,7 +35,7 @@ function Header({ onSubmit, searchedData }) {
                     <Link to='/fav'><button className="btn btn-success h-100">Favorites</button></Link>
 
                     <form onSubmit={handleSubmit} className='d-flex w-0'>
-                        <input className="me-2" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Search" />
+                        <input className="form-control me-2" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Search" />
                         {/* <button className="btn btn-success">Search</button> */}
                     </form>
 

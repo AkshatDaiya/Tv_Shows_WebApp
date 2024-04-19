@@ -6,12 +6,11 @@ import Header from './Header'
 import MyContext from './MyContext'
 
 function Shows() {
-
+    const { searchedData, setSearchedData } = useContext(MyContext);
     const navigate = useNavigate()
     const [data, setData] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage] = useState(21)
-    const [searchedData, setSearchedData] = useState([])
 
     const lastPostIndex = currentPage * postPerPage;
     const firstPostIndex = lastPostIndex - postPerPage
@@ -72,7 +71,7 @@ function Shows() {
                         currentPosts.map((data, i) => (
                             <div className="col-md-4 adjust" key={i}>
                                 <div className="card" style={{ background: '#454545' }}>
-                                    <img src={data.image.original} className="card-img-top" alt="" />
+                                    <img loading='lazy' src={data.image.original !== null ? data.image.original : '../unsplash.jpg'} className="card-img-top" alt="" />
                                     <div className="card-body text-white">
                                         <h3 className="card-title">{data.name}</h3>
                                         <hr />
@@ -91,15 +90,13 @@ function Shows() {
                         (searchedData.map((data, i) => (
                             <div className="col-md-4 adjust" key={i}>
                                 <div className="card" style={{ background: '#454545' }}>
-                                    {!data.show.image ? (<></>) :
-                                        <img src={data.show.image.original} className="card-img-top" alt="" />
-                                    }
+                                    <img loading='lazy' src={data.show.image && data.show.image.original !== null ? data.show.image.original : '../unsplash.jpg'} className="card-img-top" alt="" />
                                     <div className="card-body text-white">
                                         <h3 className="card-title">{data.show.name}</h3>
                                         <hr />
                                         <h6><b>Language: </b>{data.show.language}</h6>
                                         <h6><b>Release Date: </b>{data.show.premiered}</h6>
-                                        <p className="card-text"><b>Summary: </b>{removeHtmlTags(data.show.summary)}</p>
+                                        <p className="card-text"><b>Summary: </b>{removeHtmlTags(data.show.summary && data.show.summary.length > 50 ? data.show.summary.slice(0, 140) + "...." : data.show.summary)}</p>
                                         <button className="btn btn-primary" onClick={(e) => { goTODetails(e, data.show.id) }}>More Details</button>
                                     </div>
                                 </div>
@@ -107,7 +104,14 @@ function Shows() {
                         )))
                     }
                 </div>
-                <Pagination totalPosts={data.length} postsPerPages={postPerPage} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+
+                <Pagination
+                    totalPosts={data.length}
+                    postsPerPages={postPerPage}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                />
+
             </div>
         </div>
     )

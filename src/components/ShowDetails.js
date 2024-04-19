@@ -32,14 +32,14 @@ function ShowDetails() {
 
     return (
         <div className='position-relative'>
-            <img src={data && data.image.original} alt="Background" className='position-absolute top-0 left-0 w-100 vh-100 object-fit-cover' style={{ zIndex: "-1" }} />
+            <img src={data && data.image && data.image.original !== null ? data.image.original : '../unsplash.jpg'} alt="Background" className='position-absolute top-0 left-0 w-100 vh-100 object-fit-cover' style={{ zIndex: "-1" }} />
             <div className='container fullH'>
                 <div className="d-flex justify-content-center align-items-center h-100">
 
                     {data ? (
                         <>
                             <div className="ps-0 h-100 d-flex align-items-center">
-                                <img src={data.image.original} className='h-100' alt="" />
+                                <img src={data && data.image && data.image.original !== null ? data.image.original : '../unsplash.jpg'} className='h-100' alt="" />
                                 <div className='details h-100 p-5 overflow-scroll' style={{ background: "rgb(240 248 255 / 84%)" }}>
                                     <h1 className="text-center">{data.name}</h1>
                                     <h4 className="fs-5">{removeHtmlTags(data.summary)}</h4>
@@ -64,7 +64,7 @@ function ShowDetails() {
                             </div>
                         </>
                     ) : (
-                        <h1>Loading....</h1>
+                        <h1 className='text-light'>Loading....</h1>
                     )}
 
                 </div>

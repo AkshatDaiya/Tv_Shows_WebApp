@@ -124,7 +124,7 @@
 .header .funcc {
   background: #141414;
   top: 399px;
-  height: 60px;
+  height: 70px;
   z-index: 1;
 }
 
@@ -158,6 +158,30 @@
 
 #Reg form {
   width: 32%;
+}
+
+.header .funcc .dropdown .dropMenu {
+  right: -22px;
+  bottom: -110px;
+  width: 146px;
+  color: white;
+  background: #111111;
+  line-height: 2;
+  margin: 0;
+  list-style: none;
+  padding: 10px 0;
+}
+
+.header .funcc .dropdown .dropMenu li {
+  cursor: pointer;
+}
+
+.header .funcc .dropdown .dropMenu li:hover {
+  background-color: #333;
+}
+
+.header .funcc .d-flex a button:hover {
+  color: #b9b3b3 !important;
 }
 
 ::-webkit-scrollbar {

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaUserAlt, FaBookmark } from "react-icons/fa";
 
-function Header({ onSubmit, searchedData }) {
+function Header({ onSubmit, searchedData, setSearchedData }) {
     const navigate = useNavigate();
     const [name, setName] = useState('');
+    const [dropMenuShow, setDropMenuShow] = useState(false);
 
     console.log(name);
     console.log(searchedData);
@@ -30,17 +32,26 @@ function Header({ onSubmit, searchedData }) {
 
     return (
         <div className='header mb-4 bgcolor'>
-            <div className="funcc d-flex align-items-center justify-content-around position-absolute w-100 p-1">
-                <div className="d-flex justify-content-around forPosition">
-                    <Link to='/fav'><button className="btn btn-success h-100">Favorites</button></Link>
+            <div className="funcc d-flex justify-content-around position-absolute w-100 p-1">
+                <div className="d-flex align-items-center justify-content-around forPosition" style={{ borderBottom: '1px solid' }}>
+                    <Link to='/fav'><button className="h-100 border-0 bg-transparent text-light fs-3"><FaBookmark /></button></Link>
 
                     <form onSubmit={handleSubmit} className='d-flex w-0'>
                         <input className="form-control me-2" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Search" />
                         {/* <button className="btn btn-success">Search</button> */}
                     </form>
 
-                    <button className='btn btn-danger mx-1' onClick={() => navigate('/')}>LogOut</button>
-                    <button className='btn btn-danger' onClick={handleAccountDelete}>Delete Account</button>
+                    <button onClick={() => { setSearchedData([]) }}>All Movies</button>
+
+                    <div className="dropdown m-1 border border-2 rounded-circle position-relative" style={{ padding: '12px', cursor: "pointer" }} onClick={() => { setDropMenuShow(!dropMenuShow) }}>
+                        <FaUserAlt className='fs-2 text-light' />
+                        {dropMenuShow &&
+                            <ul className='dropMenu position-absolute'>
+                                <li className='py-1 px-3' onClick={() => navigate('/')}>Log Out</li>
+                                <li className='py-1 px-3' onClick={handleAccountDelete}>Delete Account</li>
+                            </ul>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

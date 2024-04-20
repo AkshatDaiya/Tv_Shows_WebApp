@@ -29,10 +29,14 @@ function Login() {
         let storedData = JSON.parse(localStorage.getItem('formData'))
         console.log(storedData);
 
-        if (storedData.email !== email) {
-            setError('Wrong Credentials! please try again')
+        if (!storedData) {
+            setError("This account is not registered yet!")
         } else {
-            navigate('/shows')
+            if (storedData.email !== email) {
+                setError('Wrong Credentials! please try again')
+            } else {
+                navigate('/shows')
+            }
         }
     };
 

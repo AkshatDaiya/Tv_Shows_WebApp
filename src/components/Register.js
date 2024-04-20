@@ -153,13 +153,17 @@ function Register() {
                             </div>
                         </div>
 
-                        <button type="submit" className='fs-5 py-2 px-3 w-100 mt-2 text-light border-0'>Register</button>
+                        {!formData.fullName || !formData.email || !formData.password || !formData.repeatPassword ?
+                            <button button type="submit" className='fs-5 py-2 px-3 w-100 mt-2 text-light border-0' style={{ cursor: "no-drop" }} disabled>Register</button>
+                            :
+                            <button type="submit" className='fs-5 py-2 px-3 w-100 mt-2 text-light border-0'>Register</button>
+                        }
                     </div>
                 }
 
                 <h6 className='mt-2'>Already have account <Link to="/">Login</Link></h6>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 
 }

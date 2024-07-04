@@ -5,7 +5,6 @@ function Pagination({ totalPosts, postsPerPages, currentPage, setCurrentPage }) 
 
     for (let i = 1; i <= Math.ceil(totalPosts / postsPerPages); i++) {
         pages.push(i)
-
     }
 
     const handlePageChange = (page) => {

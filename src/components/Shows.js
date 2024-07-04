@@ -1,139 +1,133 @@
-import axios from 'axios'
-import React, { useContext, useEffect, useState } from 'react'
-import Pagination from './Pagination'
-import { useNavigate } from 'react-router-dom'
-import Header from './Header'
-import MyContext from './MyContext'
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import Pagination from './Pagination';
+import Header from './Header';
+import MyContext from './MyContext';
+import { useNavigate } from 'react-router-dom';
 
 function Shows() {
-    const { searchedData, setSearchedData } = useContext(MyContext);
-    const navigate = useNavigate()
-    const [data, setData] = useState([])
-    const [currentPage, setCurrentPage] = useState(1)
-    const formData = JSON.parse(localStorage.getItem('searchedData'))
-    const [postPerPage] = useState(21)
-    const genres = ["Drama", "Science-Fiction", "Thriller", "Action", "Crime", "Horror", "Romance", "Adventure", "Espionage", "Music", "Mystery", "Supernatural", "Fantasy", "Family", "Anime", "Comedy", "History", "Medical", "Legal", "Western", "Children", "War", "Sports"
-    ]
-
-    console.log('formData', formData);
-
-    const lastPostIndex = currentPage * postPerPage;
-    const firstPostIndex = lastPostIndex - postPerPage
-    const currentPosts = data.slice(firstPostIndex, lastPostIndex)
-    console.log(currentPosts);
-
-    const { setContextData_FevId } = useContext(MyContext);
+    const { searchedData, setSearchedData, setContextData_FevId } = useContext(MyContext);
+    const navigate = useNavigate();
+    const [data, setData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postPerPage, setPostPerPage] = useState(21);
+    const genres = ["Drama", "Science-Fiction", "Thriller", "Action", "Crime", "Horror", "Romance", "Adventure", "Espionage", "Music", "Mystery", "Supernatural", "Fantasy", "Family", "Anime", "Comedy", "History", "Medical", "Legal", "Western", "Children", "War", "Sports"];
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('https://api.tvmaze.com/shows');
-                setData(response.data)
+                setData(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
-        }
+        };
+        fetchData();
+    }, []);
 
-        fetchData()
-
-    }, [])
-
-
-
-    function removeHtmlTags(inputString) {
-        let doc = new DOMParser().parseFromString(inputString, 'text/html');
+    const removeHtmlTags = (inputString) => {
+        const doc = new DOMParser().parseFromString(inputString, 'text/html');
         return doc.body.textContent || "";
-    }
+    };
 
-    function goTODetails(e, id) {
-        navigate('/shows_details', { state: { id: id } })
-    }
+    const goToDetails = (e, id) => {
+        navigate('/shows_details', { state: { id } });
+    };
 
-    function getData(data) {
-        setSearchedData(data)
-    }
-
-    function goToFavorite(id) {
+    const addToFavorites = (id) => {
         setContextData_FevId((prevIds) => {
-            // Use a Set to ensure unique values
             const uniqueIds = new Set([...prevIds, id]);
-
-            // Convert the Set back to an array
             return Array.from(uniqueIds);
         });
-    }
+    };
 
-    const genreData = (value) => {
-        const filterData = data.filter((data) => data.genres.includes(value))
-        setSearchedData(filterData)
-    }
+    const handleGenreChange = (e) => {
+        const selectedGenre = e.target.value;
+        if (selectedGenre) {
+            const filteredData = data.filter((show) => show.genres.includes(selectedGenre));
+            setSearchedData(filteredData);
+        }
+    };
+
+    const getCurrentPosts = () => {
+        const lastPostIndex = currentPage * postPerPage;
+        const firstPostIndex = lastPostIndex - postPerPage;
+        return data.slice(firstPostIndex, lastPostIndex);
+    };
 
     return (
         <div id='backgroundC'>
-            <div>
-
-                <Header onSubmit={getData} searchedData={searchedData} setSearchedData={setSearchedData} />
-
-            </div>
+            <Header onSubmit={setSearchedData} />
             <div className="container mt-5 pt-4">
                 <div className="row">
-
-                    <div className="mini-nav border border-1 my-2 mb-3">
+                    <div className="mini-nav my-2 mb-3 d-flex align-items-center justify-content-between">
                         <select
                             name="genre"
                             id="genre"
                             className="p-2"
                             style={{ outline: 'none' }}
-                            onChange={(e) => genreData(e.target.value)}
+                            onChange={handleGenreChange}
                         >
-                            {/* Default option */}
-                            <option key="default" value="">
-                                Genres
-                            </option>
-
-                            {/* Dynamic options from genres array */}
+                            <option key="default" value="">Genres</option>
                             {genres.map((genre, i) => (
                                 <option key={i} value={genre}>
                                     {genre}
                                 </option>
                             ))}
                         </select>
+
+                        <button className="all-movies-btn fs-5 px-3 py-1 border-0 rounded-3" onClick={() => setSearchedData([])}>
+                            All Movies
+                        </button>
                     </div>
-
-
                     {searchedData.length === 0 ? (
-                        currentPosts.map((data, i) => (
+                        getCurrentPosts().map((show, i) => (
                             <div className="col-md-4 adjust" key={i}>
                                 <div className="card" style={{ background: '#454545' }}>
                                     <img
                                         loading='lazy'
-                                        src={data.image?.original || '../unsplash.jpg'}
+                                        src={show.image?.original || '../unsplash.jpg'}
                                         className="card-img-top"
-                                        alt="image"
+                                        alt="MoviesImg"
                                     />
                                     <div className="card-body text-white">
-                                        <h3 className="card-title">{data.name}</h3>
+                                        <h3 className="card-title">{show.name}</h3>
                                         <hr />
-                                        <h6><b>Genres: </b>{data.genres.join(', ')}</h6>
-                                        <h6><b>Language: </b>{data.language}</h6>
-                                        <h6><b>IMDB Rating: </b>{data.rating.average}</h6>
-                                        <h6><b>Release Date: </b>{data.premiered}</h6>
-                                        <p className="card-text"><b>Summary: </b>{removeHtmlTags(data.summary.length > 50 ? data.summary.slice(0, 140) + "...." : data.summary)}</p>
-                                        <button className="btn btn-outline-primary" onClick={(e) => { goTODetails(e, data.id) }}>More Details</button>
+                                        <h6><b>Genres: </b>{show.genres.join(', ')}</h6>
+                                        <h6><b>Language: </b>{show.language}</h6>
+                                        <h6><b>IMDB Rating: </b>{show.rating.average}</h6>
+                                        <h6><b>Release Date: </b>{show.premiered}</h6>
+                                        <p className="card-text">
+                                            <b>Summary: </b>
+                                            {removeHtmlTags(
+                                                show.summary.length > 50 ? show.summary.slice(0, 140) + "..." : show.summary
+                                            )}
+                                        </p>
+                                        <button
+                                            className="btn btn-outline-primary"
+                                            onClick={(e) => goToDetails(e, show.id)}
+                                        >
+                                            More Details
+                                        </button>
                                     </div>
-                                    <button onClick={() => { goToFavorite(data.externals.thetvdb) }} className='btn btn-outline-warning mt-5'>Add To Favorite</button>
+                                    <button
+                                        className='btn btn-outline-warning mt-5'
+                                        onClick={() => addToFavorites(show.externals.thetvdb)}
+                                    >
+                                        Add To Favorite
+                                    </button>
                                 </div>
                             </div>
-                        )))
-                        :
-                        (searchedData.map((data, i) => (
+                        ))
+                    ) : (
+                        searchedData.map((data, i) => (
                             <div className="col-md-4 adjust" key={i}>
                                 <div className="card" style={{ background: '#454545' }}>
                                     <img
                                         loading='lazy'
                                         src={data.show?.image?.original || data.image?.original || '../unsplash.jpg'}
                                         className="card-img-top"
-                                        alt="image"
+                                        alt="MoviesImg"
                                     />
                                     <div className="card-body text-white">
                                         <h3 className="card-title">{data.show?.name || data.name}</h3>
@@ -144,34 +138,42 @@ function Shows() {
                                             <b>Summary: </b>
                                             {removeHtmlTags(
                                                 data.show?.summary || data.summary
-                                            )?.length > 50
-                                                ? removeHtmlTags(data.show?.summary || data.summary).slice(0, 140) + '...'
-                                                : removeHtmlTags(data.show?.summary || data.summary) || 'No summary available'}
+                                            ).length > 50 ? (
+                                                removeHtmlTags(data.show?.summary || data.summary).slice(0, 140) + '...'
+                                            ) : (
+                                                removeHtmlTags(data.show?.summary || data.summary) || 'No summary available'
+                                            )}
                                         </p>
                                         <button
-                                            className="btn btn-primary"
-                                            onClick={(e) => goTODetails(e, data.show?.id || data.id)}
+                                            className="btn btn-outline-primary"
+                                            onClick={(e) => goToDetails(e, data.show?.id || data.id)}
                                         >
                                             More Details
                                         </button>
                                     </div>
-                                    <button onClick={() => { goToFavorite(data.show?.externals.thetvdb || data.externals.thetvdb) }} className='btn btn-outline-warning mt-5'>Add To Favorite</button>
+                                    <button
+                                        className='btn btn-outline-warning mt-5'
+                                        onClick={() => addToFavorites(data.show?.externals.thetvdb || data.externals.thetvdb)}
+                                    >
+                                        Add To Favorite
+                                    </button>
                                 </div>
                             </div>
-                        )))
-                    }
+                        ))
+                    )}
+
+                    {/* <Pagination
+                        totalPosts={data.length}
+                        postsPerPage={postPerPage}
+                        setCurrentPage={setCurrentPage}
+                        currentPage={currentPage}
+                    /> */}
+
+                    <button onClick={() => setPostPerPage(postPerPage + 21)}>Show More...</button>
                 </div>
-
-                <Pagination
-                    totalPosts={data.length}
-                    postsPerPages={postPerPage}
-                    setCurrentPage={setCurrentPage}
-                    currentPage={currentPage}
-                />
-
             </div>
-        </div >
-    )
+        </div>
+    );
 }
 
-export default Shows
+export default Shows;

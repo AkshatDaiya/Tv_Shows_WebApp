@@ -121,7 +121,7 @@
   color: #333;
 }
 
-.header .funcc {
+.header .header-content {
   background: #141414;
   top: 399px;
   height: 70px;
@@ -155,12 +155,11 @@
   height: 100vh;
 }
 
-
 #Reg form {
   width: 32%;
 }
 
-.header .funcc .dropdown .dropMenu {
+.header .header-content .dropdown .dropMenu {
   right: -22px;
   bottom: -110px;
   width: 146px;
@@ -172,16 +171,28 @@
   padding: 10px 0;
 }
 
-.header .funcc .dropdown .dropMenu li {
+.header .header-content .dropdown .dropMenu li {
   cursor: pointer;
 }
 
-.header .funcc .dropdown .dropMenu li:hover {
+.header .header-content .dropdown .dropMenu li:hover {
   background-color: #333;
 }
 
-.header .funcc .d-flex a button:hover {
+.header .header-content .d-flex a button:hover {
   color: #b9b3b3 !important;
+}
+
+.Loading_Bg {
+  background: url('../public/unsplash.jpg');
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 ::-webkit-scrollbar {
